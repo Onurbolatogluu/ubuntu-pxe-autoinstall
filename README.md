@@ -149,7 +149,7 @@ mkdir -p /srv/tftp/grub
 vi /srv/tftp/grub/grub.cfg
 ```
 
-### /srv/tftp/grub/grub.cfg Dısyasının içeriği
+### /srv/tftp/grub/grub.cfg Dosyasının içeriği
 ```bash
 default=autoinstall
 timeout=30
