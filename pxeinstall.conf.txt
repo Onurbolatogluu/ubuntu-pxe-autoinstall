@@ -1,0 +1,55 @@
+    1  clear
+    2  sudo apt-get update -y && apt-get upgrade -y && sudo apt-get -y install tftpd-hpa apache2 dnsmasq
+    3  sudo vi /etc/apache2/conf-available/tftp.conf
+    4  sudo a2enconf tftp
+    5  systemctl reload apache2
+    6  sudo systemctl restart apache2
+    7  systemctl stop systemd-resolved.service
+    8  systemctl disable systemd-resolved.service
+    9  sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.old
+   10  vi /etc/dnsmasq.conf
+   11  ip a
+   12  vi /etc/dnsmasq.conf
+   13  sudo systemctl enable dnsmasq --now
+   14  sudo systemctl enable apache2 --now
+   15  sudo systemctl enable tftpd-hpa --now
+   16  sudo systemctl restart dnsmasq
+   17  vi /etc/default/tftpd-hpa
+   18  wget http://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso -O /srv/tftp/ubuntu-24.04-live-server-amd64.iso
+   19  ping 8.8.8.8
+   20  wget http://ftp.usf.edu/pub/ubuntu-releases/24.04/ubuntu-24.04.1-live-server-amd64.iso -O /srv/tftp/ubuntu-24.04.1-live-server-amd64.iso
+   21  vi /etc/resolv.conf
+   22  wget http://ftp.usf.edu/pub/ubuntu-releases/24.04/ubuntu-24.04.1-live-server-amd64.iso -O /srv/tftp/ubuntu-24.04.1-live-server-amd64.iso
+   23  cd /srv/tftp/
+   24  ls
+   25  rm ubuntu-24.04-live-server-amd64.iso
+   26  clear
+   27  du -sh *
+   28  clear
+   29  mount ubuntu-24.04.1-live-server-amd64.iso /mnt
+   30  mkdir noble
+   31  cp /mnt/casper/{vmlinuz,initrd} /srv/tftp/noble
+   32  umount /mnt
+   33  ls
+   34  cd /tmp/
+   35  sudo apt-get download shim-signed grub-efi-amd64-signed grub-common -y
+   36  ls
+   37  dpkg-deb --fsys-tarfile shim-signed*deb | tar x ./usr/lib/shim/shimx64.efi.signed -O > /srv/tftp/bootx64.efi
+   38  dpkg-deb --fsys-tarfile shim-signed*deb | tar x ./usr/lib/shim/shimx64.efi.signed.latest -O > /srv/tftp/bootx64.efi
+   39  dpkg-deb --fsys-tarfile grub-efi-amd64-signed*deb | tar x ./usr/lib/grub/x86_64-efi-signed/grubnetx64.efi.signed -O > /srv/tftp/grubx64.efi
+   40  dpkg-deb --fsys-tarfile grub-common*deb | tar x ./usr/share/grub/unicode.pf2 -O > /srv/tftp/unicode.pf2
+   41  mkdir -p /srv/tftp/grub
+   42  vi /srv/tftp/grub/grub.cfg
+   43  mv /srv/tftp/ubuntu-24.04.1-live-server-amd64.iso /srv/tftp/noble/
+   44  touch /srv/tftp/noble/meta-data
+   45  touch /srv/tftp/noble/user-data
+   46  vi /srv/tftp/noble/user-data
+   47  chown tftp: -R /srv/tftp/
+   48  chown 777 -R /srv/tftp/
+   49  systemctl restart tftpd-hpa
+   50  vi /srv/tftp/grub/grub.cfg
+   51  vi /srv/tftp/noble/user-data
+   52  ip a
+   53  vi /srv/tftp/noble/user-data
+   54  systemctl restart tftpd-hpa
+   55  systemctl restart apache2
