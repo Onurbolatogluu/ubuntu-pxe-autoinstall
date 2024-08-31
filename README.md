@@ -268,4 +268,4 @@ systemctl restart apache2
 
 Bu adımları takip ederek, ağ üzerinden otomatik bir Ubuntu kurulumu gerçekleştirmek için PXE, TFTP ve autoinstall yapılandırmalarını tamamladınız. PXE istemcilerinin doğru şekilde sunucuya bağlanıp kuruluma başlamasını sağlayabilirsiniz. 
 
-Resources : https://www.youtube.com/watch?v=E_OlsA1hF4k
+Resources : https://www.youtube.com/watch?v=E_OlsA1hF4k - https://github.com/canonical/autoinstall-desktop/tree/main
